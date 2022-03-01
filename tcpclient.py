@@ -1,9 +1,9 @@
 # IS496: Computer Networks (Spring 2022)
 # Programming Assignment 2 - Starter Code
-# Name and Netid of each member:
-# Member 1: 
-# Member 2: 
-# Member 3: 
+# Name and NetId of each member:
+# Member 1: River Liu, ll24
+# Member 2: Yuxuan Jiang, yj26
+# Member 3: Zhizhou Xu, zhizhou6
 
 # Note: 
 # This starter code is optional. Feel free to develop your own solution to Part 1. 
@@ -17,7 +17,7 @@ import sys
 
 ############## Beginning of Part 1 ##############
 # TODO: define a buffer size for the message to be read from the TCP socket
-BUFFER = 
+BUFFER = 4096
 
 def part1 ():
     # TODO: fill in the hostname and port number
