@@ -15,14 +15,14 @@ import os, socket, sys, struct, subprocess
 
 
 ############## Beginning of Part 1 ##############
-# define a buffer size for the message to be read from the TCP socket
+# Define a buffer size for the message to be read from the TCP socket
 BUFFER = 1024
 
 
 def init_sock(host, port):
     sin = (host, port)
 
-    # create a datagram socket for TCP
+    # Create a datagram socket for TCP
     try:
         sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
     except socket.error:
@@ -37,14 +37,14 @@ def init_sock(host, port):
         print('Failed to bind socket.')
         sys.exit()
 
-    # start listening
+    # Start listening
     try:
         sock.listen()
     except socket.error:
         print('Failed to listen.')
         sys.exit()
 
-    # accept the connection and record the address of the client socket
+    # Accept the connection and record the address of the client socket
     try:
         conn, addr = sock.accept()
     except socket.error:
@@ -56,21 +56,21 @@ def init_sock(host, port):
 
 def part1 ():
     print("********** PART 1 **********")
-    # fill in the IP address of the host and the port number
+    # Fill in the IP address of the host and the port number
     host = '192.17.61.22'
     port = 41022
     sock, conn, addr = init_sock(host, port)
 
-    # receive message from the client
+    # Receive message from the client
     data = conn.recv(BUFFER)
 
-    # print the message to the screen
+    # Print the message to the screen
     print('Client Message: ' + data.decode('utf-8'))
 
-    # send an acknowledgement (e.g., integer of 1) to the client
+    # Send an acknowledgement (e.g., integer of 1) to the client
     conn.send(struct.pack('i', 1))
 
-    # close the socket
+    # Close the socket
     sock.close()
 
 
@@ -83,26 +83,33 @@ def part1 ():
 
 
 def ls(conn):
+    # Use the shell command 'ls -l' to list the directory at the server, and record the result
     result = subprocess.run(['ls', '-l'], stdout=subprocess.PIPE)
+
+    # Send the result back to the client
     conn.send(result.stdout)
 
 
-# main function for Part 2
+# Main function for Part 2
 def part2 ():
     print("********** PART 2 **********")
-    # fill in the IP address of the host and the port number
+    # Fill in the IP address of the host and the port number
     host = '192.17.61.22'
     port = int(sys.argv[1])
+
     while True:
         print(f'Waiting for connections on port {port}')
         try:
+            # Establish the connection with the client
             sock, conn, addr = init_sock(host, port)
             print('Connection established.')
 
             while True:
+                # Receive the command from client
                 data = conn.recv(BUFFER)
                 command = data.decode('utf-8')
 
+                # According to the command, execute certain function
                 if command == 'LS':
                     ls(conn)
                 elif command == 'QUIT':
@@ -110,6 +117,8 @@ def part2 ():
                     break
                 else:
                     print('Failed to resolve command.')
+
+        # Use Ctrl+C to shut down the server
         except KeyboardInterrupt:
             print('Server Shutdown.')
             break

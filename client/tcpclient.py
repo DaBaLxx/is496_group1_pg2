@@ -72,11 +72,12 @@ def part1 ():
 ############## Beginning of Part 2 ##############
 
 
+# List all the files and directories in server directory
 def ls(sock):
     print(sock.recv(BUFFER).decode('utf-8'))
 
 
-# main function for Part 2
+# Main function for Part 2
 def part2 ():
     print("********** PART 2 **********")
 
@@ -91,16 +92,19 @@ def part2 ():
         print('Failed to resolve hostname.')
         sys.exit()
 
+    # Initiate the socket and connect to the server
     sock = init_sock(host, port)
-
     print('Connection established')
 
     while True:
+        # Waiting for user to prompt command
         command = input('> ')
         command_byte = command.encode('utf-8')
 
+        # Send the command to the server in byte
         sock.send(command_byte)
 
+        # According to the command, print different results.
         if command == 'LS':
             ls(sock)
         elif command == 'QUIT':
