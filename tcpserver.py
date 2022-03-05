@@ -23,9 +23,9 @@ BUFFER = 4096
 def part1 ():
     print("********** PART 1 **********")
     # TODO: fill in the IP address of the host and the port number
-    HOST = '192.17.61.22'
-    PORT = 41022
-    sin = (HOST, PORT)
+    host = '192.17.61.22'
+    port = 41022
+    sin = (host, port)
 
     # TODO: create a datagram socket for TCP
     try:
@@ -33,7 +33,6 @@ def part1 ():
     except socket.error as e:
         print('Failed to create socket.')
         sys.exit()
-
 
     # TODO: Bind the socket to address
     try:
@@ -43,7 +42,6 @@ def part1 ():
         print('Failed to bind socket.')
         sys.exit()
 
-
     # TODO: start listening 
     try:
         sock.listen()
@@ -51,23 +49,26 @@ def part1 ():
         print('Failed to listen.')
         sys.exit()
 
-
     # TODO: accept the connection and record the address of the client socket
     try:
-        con, addr = sock.accept()
+        conn, addr = sock.accept()
+    except socket.error:
+        print('Failed to accept.')
+        sys.exit()
 
-
-    # TODO: receive message from the client 
-
+    # TODO: receive message from the client
+    data = conn.recv(BUFFER)
 
     # TODO: print the message to the screen
+    message = data.decode('utf-8')
+    print('Client Message: ' + message)
 
-
-    # TODO: send an acknowledgement (e.g., interger of 1) to the client
-
+    # TODO: send an acknowledgement (e.g., integer of 1) to the client
+    acknowledgement = 1
+    conn.send(acknowledgement.to_bytes(2, 'big'))
 
     # TODO: close the socket
-
+    sock.close()
 
 ############## End of Part 1 ##############
 
@@ -77,7 +78,7 @@ def part1 ():
 ############## Beginning of Part 2 ##############
 
 # main function for Part 2
-def part2 ():
+# def part2 ():
 
 
 

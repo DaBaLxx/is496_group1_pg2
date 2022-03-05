@@ -21,39 +21,42 @@ BUFFER = 4096
 
 def part1 ():
     # TODO: fill in the hostname and port number
-    hostname = 
-    PORT = 
+    hostname = 'student00.ischool.illinois.edu'
+    port = 41022
 
     # A dummy message (in bytes) to test the code
-    message = "Hello World"
+    message = b'Hello World'
 
     # TODO: convert the host name to the corresponding IP address
-    HOST = 
-    sin = (HOST, PORT)
-
+    host = socket.gethostbyname(hostname)
+    sin = (host, port)
 
     # TODO: create a datagram socket for TCP
     try:
-        
-    except socket.error as e:
+        sock = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
+    except socket.error:
         print('Failed to create socket.')
         sys.exit()
 
-
     # TODO: connect to the server
-
+    try:
+        sock.connect(sin)
+    except socket.error:
+        print('Failed to connect.')
+        sys.exit()
 
     # TODO: send the message to the server
-
+    sock.send(message)
 
     # TODO: receive the acknowledgement from the server
-
+    data = sock.recv(BUFFER)
+    acknowledgement = int.from_bytes(data, 'big')
 
     # TODO: print the acknowledgement to the screen
-
+    print(f'Acknowledgement: {acknowledgement}')
 
     # TODO: close the socket
-
+    sock.close()
 
 
 ############## End of Part 1 ##############
@@ -65,7 +68,7 @@ def part1 ():
 
 
 # main function for Part 2
-def part2 ():
+# def part2 ():
 
 
 
